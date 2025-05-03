@@ -1,0 +1,29 @@
+.sticky-note {
+    background-color: #fdfd96;
+    width: 150px;
+    height: 150px;
+    padding: 16px;
+    margin: 16px;
+    border-radius: 8px;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
+    transform: rotate(-2deg);
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.sticky-note:hover {
+    transform: rotate(0deg) scale(1.05);
+    box-shadow: 4px 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+.sticky-note h4 {
+    margin: 0;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    font-size: 1rem;
+    color: #333;
+}
