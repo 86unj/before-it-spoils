@@ -3,9 +3,10 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px;
-  margin: 8px;
+  margin: 4px;
   border-radius: 8px;
   color: #fff;
+  background-color: burlywood;
   font-weight: bold;
   transition: background-color 0.3s ease;
 }
@@ -13,4 +14,14 @@
 .pantry-item:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.pantry-item-green {
+  background-color: #4caf50;
+}
+.pantry-item-yellow {
+  background-color: #ffeb3b;
+} 
+.pantry-item-red {
+  background-color: #f44336;
 }

@@ -10,7 +10,7 @@ export default function PantryList({ pantry, setPantry }) {
     if (diffDays > 7) return "pantry-item-green"; // More than 7 days
     if (diffDays > 3) return "pantry-item-yellow"; // 4-7 days
     if (diffDays > 0) return "pantry-item-orange"; // 1-3 days
-    return "pantry-item-red"; // Expired or today
+    return "pantry-item-yellow"; // Expired or today
   };
 
   const removeIngredient = async (item) => {
@@ -41,14 +41,14 @@ export default function PantryList({ pantry, setPantry }) {
         {pantry.map((item, i) => (
           <div
             key={i}
-            className={`pantry-item ${getExpirationClass(item.expirationDate)}`}
+            className={`pantry-item ${item.color}`}
           >
             <div className="item-content">
               {item.name}
             </div>
             <button
               onClick={() => removeIngredient(item.name)}
-              className="delete-btn text-red-500 font-bold pl-3"
+              className="delete-btn font-bold pl-3 text-xs"
               aria-label={`Remove ${item.name}`}
             >
               ✕

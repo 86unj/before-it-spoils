@@ -17,6 +17,7 @@ export default function Home() {
         const fetchPantry = async () => {
             try {
                 const userId = localStorage.getItem("user_id");
+                console.log("User ID:", userId); // Debugging line
                 const res = await fetch("https://gdsc-server-fy70.onrender.com/pantry", {
                     method: "GET",
                     credentials: "include",
@@ -38,8 +39,12 @@ export default function Home() {
             .map((item) => item.trim().toLowerCase())
             .filter((item) => item);
 
-        const uniqueNewItems = newItems.filter((item) => !pantry.includes(item));
-        setPantry([...pantry, ...uniqueNewItems]);
+        const uniqueNewItems = newItems.filter(
+            (item) => !pantry.some((pantryItem) => pantryItem.name === item)
+        );
+
+        // Update the pantry state with the correct structure
+        setPantry([...pantry, ...uniqueNewItems.map((item) => ({ name: item }))]);
         setInput("");
 
         try {
@@ -70,7 +75,7 @@ export default function Home() {
                 method: "POST",
                 credentials: "include",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ ingredients: pantry }),
+                body: JSON.stringify({ ingredient : pantry }),
             });
             if (!res.ok) throw new Error("Something went wrong with the API");
             const data = await res.json();
@@ -86,18 +91,33 @@ export default function Home() {
             <div className="text-center mb-4">
                 <h1 className="text-3xl font-bold text-gray-800">BeforeItSpoils</h1>
                 <p className="text-base text-gray-500">Turn your pantry items into delicious recipes!</p>
-                <p className="text-sm text-gray-500 mt-2">
-                    Already have an account?{" "}
-                    <Link to="/login" className="text-blue-500 hover:underline">
-                        Login here
-                    </Link>
-                </p>
+                {localStorage.getItem("user_id") ? (
+                    <p className="text-sm text-gray-500 mt-2">
+                        Welcome back! {" "}
+                        <button
+                            onClick={() => {
+                                localStorage.removeItem("user_id"); // Clear user_id from localStorage
+                                window.location.reload(); // Reload the page to reflect the sign-out
+                            }}
+                            className="text-blue-500 hover:underline mt-2"
+                        >
+                            Sign Out
+                        </button>
+                    </p>
+                ) : (
+                    <p className="text-sm text-gray-500 mt-2">
+                        Already have an account?{" "}
+                        <Link to="/login" className="text-blue-500 hover:underline">
+                            Login here
+                        </Link>
+                    </p>
+                )}
             </div>
 
             <div className="fridge-shelves">
                 <div className="shelf">
                     <div className="shelf-handle"></div>
-                    <PantryList pantry={pantry} removeIngredient={removeIngredient} />
+                    <PantryList pantry={pantry} setPantry={setPantry} removeIngredient={removeIngredient} />
                 </div>
                 <div className="shelf">
                     <div className="shelf-handle"></div>

@@ -19,14 +19,15 @@ export default function Login() {
                 body: JSON.stringify({ username: userName, password }),
             });
 
+            const data = await res.json();
+
             if (!res.ok) {
-                const data = await res.json();
                 throw new Error(data.error || "Failed to login");
             }
 
-            const data = await res.json();
-            localStorage.setItem("user_id", data.user_id); // Store user ID for session-based requests
+            localStorage.setItem("user_id", data.user_id);
             navigate("/");
+            window.location.reload();
         } catch (err) {
             setError(err.message || "Something went wrong");
         }

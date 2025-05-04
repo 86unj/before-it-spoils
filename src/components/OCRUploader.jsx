@@ -16,7 +16,7 @@ export default function OCRUploader({ setPantry }) {
         reader.onload = async () => {
             const base64Image = reader.result.split(",")[1];
             try {
-                const res = await fetch("https://gdsc-server-fy70.onrender.com/ocr", {
+                const res = await fetch("https://gdsc-server-docker.onrender.com/ocr", {
                     method: "POST",
                     credentials: "include",
                     headers: { "Content-Type": "application/json" },
