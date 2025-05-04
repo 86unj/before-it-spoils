@@ -1,30 +1,12 @@
 .fridge-container {
     background-color: #f0f0f0;
-    border: 4px solid #ccc; 
+    border: 4px solid #ccc;
     border-radius: 12px;
     padding: 16px;
     max-width: 600px;
     margin: 0 auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-
-
-.fridge-header {
-    text-align: center;
-    margin-bottom: 16px;
-}
-
-.fridge-title {
-    font-size: 2rem;
-    font-weight: bold;
-    color: #333;
-}
-
-.fridge-description {
-    font-size: 1rem;
-    color: #666;
-}
-
 
 .fridge-shelves {
     display: grid;
@@ -38,6 +20,19 @@
     border-radius: 8px;
     padding: 16px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.shelf-handle {
+    width: 8px;
+    height: clamp(8px, 40%, 60px);
+    background-color: #ccc;
+    border-radius: 4px;
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translateY(-50%);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
 }
 
 

@@ -1,5 +1,5 @@
 .sticky-note {
-    background-color: #fdfd96;
+  background-color: #fdfd96;
     width: 150px;
     height: 150px;
     padding: 16px;
@@ -17,13 +17,13 @@
 }
 
 .sticky-note:hover {
-    transform: rotate(0deg) scale(1.05);
-    box-shadow: 4px 6px 10px rgba(0, 0, 0, 0.3);
+  transform: rotate(0deg) scale(1.05);
+  box-shadow: 4px 6px 10px rgba(0, 0, 0, 0.3);
 }
 
 .sticky-note h4 {
-    margin: 0;
-    font-family: "Comic Sans MS", cursive, sans-serif;
-    font-size: 1rem;
-    color: #333;
+  margin: 0;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 1rem;
+  color: #333;
 }

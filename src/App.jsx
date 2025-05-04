@@ -1,6 +1,17 @@
 import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register"; // Import the Register page
 
 export default function App() {
-  return <Home />;
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} /> {/* Add Register route */}
+            </Routes>
+        </Router>
+    );
 }

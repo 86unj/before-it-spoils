@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import PantryList from "../components/PantryList";
 import RecipeList from "../components/RecipeList";
 import OCRUploader from "../components/OCRUploader";
 import RecipeModal from "../components/RecipeModal";
-import "./Home.css"; // Import the fridge-specific styles
+import "./Home.css";
 
 export default function Home() {
     const [input, setInput] = useState("");
@@ -15,10 +16,15 @@ export default function Home() {
     useEffect(() => {
         const fetchPantry = async () => {
             try {
-                const res = await fetch("https://gdsc-server-fy70.onrender.com/pantry/list");
+                const userId = localStorage.getItem("user_id");
+                const res = await fetch("https://gdsc-server-fy70.onrender.com/pantry", {
+                    method: "GET",
+                    credentials: "include",
+                    headers: { "Content-Type": "application/json" },
+                });
                 if (!res.ok) throw new Error("Failed to fetch pantry items");
                 const data = await res.json();
-                setPantry(data.pantry);
+                setPantry(data.pantry_items || data.pantry || []);
             } catch (err) {
                 console.error(err.message);
             }
@@ -26,14 +32,31 @@ export default function Home() {
         fetchPantry();
     }, []);
 
-    const addIngredient = () => {
+    const addIngredient = async () => {
         const newItems = input
             .split(",")
             .map((item) => item.trim().toLowerCase())
             .filter((item) => item);
+
         const uniqueNewItems = newItems.filter((item) => !pantry.includes(item));
         setPantry([...pantry, ...uniqueNewItems]);
         setInput("");
+
+        try {
+            const res = await fetch("https://gdsc-server-fy70.onrender.com/pantry/add", {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ ingredient: uniqueNewItems }), // Send as a list
+            });
+
+            if (!res.ok) {
+                const errorData = await res.json();
+                console.error("Failed to add items:", errorData.error);
+            }
+        } catch (err) {
+            console.error("Failed to add pantry items:", err.message);
+        }
     };
 
     const removeIngredient = (item) => {
@@ -45,6 +68,7 @@ export default function Home() {
         try {
             const res = await fetch("https://gdsc-server-fy70.onrender.com/generate", {
                 method: "POST",
+                credentials: "include",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ ingredients: pantry }),
             });
@@ -59,16 +83,24 @@ export default function Home() {
 
     return (
         <div className="fridge-container">
-            <div className="fridge-header">
-                <h1 className="fridge-title">TasteBeforeWaste</h1>
-                <p className="fridge-description">Turn your pantry items into delicious recipes!</p>
+            <div className="text-center mb-4">
+                <h1 className="text-3xl font-bold text-gray-800">BeforeItSpoils</h1>
+                <p className="text-base text-gray-500">Turn your pantry items into delicious recipes!</p>
+                <p className="text-sm text-gray-500 mt-2">
+                    Already have an account?{" "}
+                    <Link to="/login" className="text-blue-500 hover:underline">
+                        Login here
+                    </Link>
+                </p>
             </div>
 
             <div className="fridge-shelves">
                 <div className="shelf">
+                    <div className="shelf-handle"></div>
                     <PantryList pantry={pantry} removeIngredient={removeIngredient} />
                 </div>
                 <div className="shelf">
+                    <div className="shelf-handle"></div>
                     <RecipeList
                         recipes={recipes}
                         setSelectedRecipe={setSelectedRecipe}
@@ -80,6 +112,7 @@ export default function Home() {
             </div>
 
             <div className="text-center mt-4">
+                <h2 className="text-lg font-bold mb-4 text-gray-500">Add Ingredients</h2>
                 <div className="flex justify-center gap-2 mb-4">
                     <input
                         type="text"

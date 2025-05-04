@@ -18,6 +18,7 @@ export default function OCRUploader({ setPantry }) {
             try {
                 const res = await fetch("https://gdsc-server-fy70.onrender.com/ocr", {
                     method: "POST",
+                    credentials: "include",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ image: base64Image }),
                 });
@@ -49,7 +50,7 @@ export default function OCRUploader({ setPantry }) {
 
     return (
         <div className="shadow-md rounded-lg p-6 max-w-md mx-auto bg-gray-50">
-            <h2 className="text-lg font-bold mb-4 text-center text-gray-500">Upload Your Receipt</h2>
+            <h2 className="font-bold mb-4 text-center text-gray-500">Upload Your Receipt</h2>
 
             <div
                 className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center cursor-pointer hover:border-blue-500"
