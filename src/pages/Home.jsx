@@ -43,8 +43,14 @@ export default function Home() {
             (item) => !pantry.some((pantryItem) => pantryItem.name === item)
         );
 
-        // Update the pantry state with the correct structure
-        setPantry([...pantry, ...uniqueNewItems.map((item) => ({ name: item }))]);
+        setPantry([
+            ...pantry,
+            ...uniqueNewItems.map((item) => ({
+                name: item,
+                details: "Sample details for " + item, // Add sample details
+                expiration: "7 days", // Add sample expiration
+            })),
+        ]);
         setInput("");
 
         try {
@@ -89,7 +95,7 @@ export default function Home() {
     return (
         <div className="fridge-container">
             <div className="text-center mb-4">
-                <h1 className="text-3xl font-bold text-gray-800">BeforeItSpoils</h1>
+                <h1 className="text-3xl font-bold text-gray-800">Before It Spoils</h1>
                 <p className="text-base text-gray-500">Turn your pantry items into delicious recipes!</p>
                 {localStorage.getItem("user_id") ? (
                     <p className="text-sm text-gray-500 mt-2">
